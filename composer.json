@@ -12,7 +12,7 @@
         }
     ],
     "require-dev": {
-        "phpunit/phpunit": "^5.4"
+        "phpunit/phpunit": "~4.0"
     },
     "autoload": {
         "psr-0": { "TwsmsSender": "src/" }

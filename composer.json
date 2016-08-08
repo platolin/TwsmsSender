@@ -1,5 +1,5 @@
 {
-    "name": "platolin/TwsmsSender",
+    "name": "platolin/twsms-sender",
     "type": "library",
     "description": "The  Twsms SMS sending PHP 5.3 library.",
     "keywords": ["sms"],

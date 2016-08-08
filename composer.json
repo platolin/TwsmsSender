@@ -1,5 +1,20 @@
 {
+    "name": "platolin/TwsmsSender",
+    "type": "library",
+    "description": "The  Twsms SMS sending PHP 5.3 library.",
+    "keywords": ["sms"],
+    "homepage": "http://github.com/platolin/TwsmsSender",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "plato lin",
+            "email": "lin.plato@gmail.com"
+        }
+    ],
     "require": {
         "phpunit/phpunit": "^5.4"
+    },
+    "autoload": {
+        "psr-0": { "TwsmsSender": "src/" }
     }
 }

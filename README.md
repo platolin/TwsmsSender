@@ -23,7 +23,6 @@ Just create a `composer.json` file for your project:
 Usage
 -----
 
-First, you need an `adapter` to query an API:
 
 ``` php
 <?php

@@ -84,7 +84,7 @@ class TwsmsSender
         );
 
         $res = $this->getContent(self::SEND_SMS_URL, 'POST', $headers = array(), $params);
-        var_dump($res);
+        
         return $this->parseSendResults($res, $extra_result_data);
 	}
      /**

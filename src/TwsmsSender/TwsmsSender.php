@@ -3,8 +3,7 @@
 namespace TwsmsSender;
 
 class TwsmsSender 
-{
-	
+{	
  	/**
      * @var string
      */
@@ -27,16 +26,50 @@ class TwsmsSender
 
 	public function __construct($username, $password)
     {    
+        if (null === $username || null === $password) {
+            throw new Exception\InvalidCredentialsException('No API credentials provided');
+        }
+
         $this->username = $username;
         $this->password = $password;
+    }
+    public function querypoint()
+    {
+
+        $params = $this->getParameters(
+            array(
+                'checkpoint' => 'Y',
+                )
+        );        
+        $res = $this->getContent(self::SMS_STATUS_URL, 'POST', $headers = array(), $params);     
+        return $this->parseQueryResults($res);
+    }
+    public function query($recipient , $msgid )
+    {       
+        $params = $this->getParameters(
+            array(
+                'mobile' => $recipient,
+                'msgid' => $msgid,
+                )
+        );        
+        $res = $this->getContent(self::SMS_STATUS_URL, 'POST', $headers = array(), $params);             
+        return $this->parseQueryResults($res);
+    }
+    public function deltime($recipient , $msgid )
+    {
+        $params = $this->getParameters(
+            array(
+                'mobile' => $recipient,
+                'msgid' => $msgid,
+                'deltime' => 'Y',
+                )
+        );        
+        $res = $this->getContent(self::SMS_STATUS_URL, 'POST', $headers = array(), $params);                     
+        return $this->parseQueryResults($res);
     }
 
 	public function send( $recipient , $smsmessage , $dlvtime )
 	{		
- 		if (null === $this->username || null === $this->password) {
-            throw new Exception\InvalidCredentialsException('No API credentials provided');
-        }
-
         $params = $this->getParameters(
             array(
                 'mobile' => $recipient,
@@ -51,9 +84,27 @@ class TwsmsSender
         );
 
         $res = $this->getContent(self::SEND_SMS_URL, 'POST', $headers = array(), $params);
-        
+        var_dump($res);
         return $this->parseSendResults($res, $extra_result_data);
 	}
+     /**
+     * Parses the data returned by the API for a "query" request.
+     *
+     * @param string $result The raw result string.
+     * @param array $extra_result_data
+     *
+     * @return array
+     */
+    protected function parseQueryResults($result, array $extra_result_data = array())
+    {
+        $xml = simplexml_load_string($result);  
+        // The message was successfully sent!
+        $sms_data['point'] = $xml->point;
+        $sms_data['code'] = $xml->code;
+        $sms_data['text'] = $xml->text; 
+        
+        return array_merge($extra_result_data , $sms_data);        
+    }
     /**
      * Parses the data returned by the API for a "send" request.
      *
@@ -66,34 +117,7 @@ class TwsmsSender
     {
 
         $xml = simplexml_load_string($result);        
-/*
-Code 碼 說明
-00000 完成
-00001 狀態尚未回復
-00010 帳號或密碼錯誤
-00020 通數不足
-00030 IP 無使用權限
-00040 帳號已停用
-00050 sendtime 格式錯誤
-00060 expirytime 格式錯誤
-00070 popup 格式錯誤
-00080 mo 格式錯誤
-00090 longsms 格式錯誤
-00100 手機號碼格式錯誤
-00110 沒有簡訊內容
-00120 長簡訊不支援國際門號
-00130 簡訊內容超過長度
-00140 drurl 格式錯誤
-00150 sendtime 預約的時間已經超過
-00300 找不到 msgid
-00310 預約尚未送出
-00400 找不到 snumber 辨識碼
-00410 沒有任何 mo 資料
-99998 資料處理異常,請重新發送
-99999 系統錯誤,請通知系統廠商
-*/
-//var_dump($xml);
-        // The message was successfully sent!
+
         $sms_data['id'] = $xml->msgid;
         $sms_data['code'] = $xml->code;
         $sms_data['text'] = $xml->text;

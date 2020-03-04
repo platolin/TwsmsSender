@@ -27,6 +27,7 @@ Usage
 ``` php
 <?php
 
+        $longsms ='N';
         $TwsmsSender = new TwSmsSender('username','password');
-        $result = $TwsmsSender->send('0975000000', 'test sms message', '201612312359' );
+        $result = $TwsmsSender->send('0975000000', 'test sms message', '201612312359' ,$longsms);
 ```

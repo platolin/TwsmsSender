@@ -68,13 +68,14 @@ class TwsmsSender
         return $this->parseQueryResults($res);
     }
 
-	public function send( $recipient , $smsmessage , $dlvtime )
+	public function send( $recipient , $smsmessage , $dlvtime ,$longsms)
 	{		
         $params = $this->getParameters(
             array(
                 'mobile' => $recipient,
                 'sendtime' => $dlvtime,
                 'message' => $this->getMessage($smsmessage),
+                'longsms' => $longsms,
             )
         );
 

@@ -1,7 +1,11 @@
 # twsms-sender
-Twsms  簡訊發送 
+Twsms  簡訊發送
 
 https://www.twsms.com/
+
+Requirements
+------------
+* PHP 8.1 or higher
 
 Installation
 ------------

@@ -18,6 +18,9 @@
         "phpunit/phpunit": "4.*"
     },
     "autoload": {
-        "psr-0": { "TwsmsSender": "src/" }
+        "psr-4": {
+            "TwsmsSender\\": "src/",
+            "TwsmsSender\\Exception\\": "src/TwsmsSender/Exception/"
+        }
     }
 }

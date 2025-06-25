@@ -63,7 +63,14 @@ class TwsmsSenderTest extends TestCase
         $result = $TwsmsSender->send('0975000000', 'test sms message', null);
 
         $this->assertNotNull($result['id']);
-        $this->assertEquals('Success', $result['text']);     
+        $this->assertEquals('Success', $result['text']);
+    }
+
+    public function testInvalidCredentialsThrowsException()
+    {
+        $this->expectException(\TwsmsSender\Exception\InvalidCredentialsException::class);
+        new TwSmsSender(null, null);
     }
 
 }
+
